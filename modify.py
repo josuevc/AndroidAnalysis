@@ -24,8 +24,8 @@ def remove_from_zip(zipfname, *filenames):
 def APKmodify(apkFile):	
 	
 	#Edit the manifest to give access to the code added
-	os.system('apktool.jar d '+apkFile+'.apk '+apkFile+'-dir-apktool')
-	print '\n\n=> Time to edit the AndroidManifest.xml in '+apkFile+'-dir-apktool.'
+	os.system('./apktool.jar d '+apkFile+'.apk')
+	print '\n\n=> Time to edit the AndroidManifest.xml in '+apkFile+'.'
 	print '==>Press ENTER to continue.'
 	raw_input()
 	
@@ -37,7 +37,7 @@ def APKmodify(apkFile):
 	raw_input()
 
 	#Reassembling of the code
-	os.system('apktool.jar b '+apkFile+'-dir-apktool '+apkFile+'-manifest.apk')
+	os.system('./apktool.jar b '+apkFile+' -o '+apkFile+'-manifest.apk')
 	os.system('d2j-jasmin2jar -f  -o '+apkFile+'-edited.jar  '+apkFile+'-dir')
 	os.system('d2j-jar2dex  -f -o classes.dex '+apkFile+'-edited.jar')
 	shutil.copyfile(apkFile+'.apk', apkFile+'-edited.apk')
@@ -71,11 +71,11 @@ def APKmodify(apkFile):
 		except:
 			print 'Could not remove the file AndroidManifest.xml'
 		
-	if(os.path.exists(apkFile+'-dir-apktool')):
+	if(os.path.exists(apkFile)):
 		try:
-			shutil.rmtree(apkFile+'-dir-apktool')
+			shutil.rmtree(apkFile)
 		except:
-			print 'Could not remove the dir '+apkFile+'-dir-apktool'
+			print 'Could not remove the dir '+apkFile+'.'
 		
 	if(os.path.exists(apkFile+'-dir')):
 		try:
